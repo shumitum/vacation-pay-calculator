@@ -1,8 +1,9 @@
 package com.neo.vacationpaycalc.impl;
 
-
 import com.neo.vacationpaycalc.Holidays;
 import com.neo.vacationpaycalc.VacationPayService;
+import com.neo.vacationpaycalc.exception.DateValidationException;
+import com.neo.vacationpaycalc.exception.NotEnoughDataException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,32 +36,29 @@ public class VacationPayServiceImpl implements VacationPayService {
                     numberOfVacationDays, avgYearlySalary);
             return calculateVacationPayByDays(numberOfVacationDays, avgYearlySalary);
         } else {
-            throw new RuntimeException("Недостаточно данных для расчёта");
+            throw new NotEnoughDataException("Недостаточно данных для расчёта");
         }
     }
 
     private BigDecimal calculateVacationPayByDays(int numberOfVacationDays, double avgYearlySalary) {
-        BigDecimal vacationPay;
-        vacationPay = BigDecimal.valueOf(avgYearlySalary / (12 * AVG_DAYS_IN_MONTH) * numberOfVacationDays * (1 - NDFL))
+        return BigDecimal.valueOf(avgYearlySalary / (12 * AVG_DAYS_IN_MONTH) * numberOfVacationDays * (1 - NDFL))
                 .setScale(2, RoundingMode.HALF_EVEN);
-        log.info("отпускные " + vacationPay);
-        return vacationPay;
     }
 
     private BigDecimal calculateVacationPayByDates(LocalDate startVacationDate,
                                                    LocalDate endVacationDate,
                                                    double avgMonthlySalary) {
-        int numberOfVacationDays;
-        numberOfVacationDays = getNumberOfVacationDays(startVacationDate, endVacationDate);
-        return calculateVacationPayByDays(numberOfVacationDays, avgMonthlySalary);
+        final int numberOfPaidVacationDays;
+        numberOfPaidVacationDays = getNumberOfPaidVacationDays(startVacationDate, endVacationDate);
+        return calculateVacationPayByDays(numberOfPaidVacationDays, avgMonthlySalary);
     }
 
-    private int getNumberOfVacationDays(LocalDate startVacationDate, LocalDate endVacationDate) {
-        int[] holidays = Holidays.getHolidays();
+    private int getNumberOfPaidVacationDays(LocalDate startVacationDate, LocalDate endVacationDate) {
+        int[] officialHolidays = Holidays.getHolidays();
         int numberOfPaidVacationDays;
         numberOfPaidVacationDays = Period.between(startVacationDate, endVacationDate).getDays() + 1;
         log.info("дней отпуска до корректировки " + numberOfPaidVacationDays);
-        for (int day : holidays) {
+        for (int day : officialHolidays) {
             if (startVacationDate.getDayOfYear() <= day && endVacationDate.getDayOfYear() >= day) {
                 --numberOfPaidVacationDays;
             }
@@ -71,7 +69,10 @@ public class VacationPayServiceImpl implements VacationPayService {
 
     private void validateVacationDates(LocalDate startVacationDate, LocalDate endVacationDate) {
         if (endVacationDate.isBefore(startVacationDate)) {
-            throw new RuntimeException("Последний день отпуска не должен наступать раньше, чем первый день отпуска");
+            throw new DateValidationException("Последний день отпуска не должен наступать раньше, чем первый день отпуска");
+        }
+        if (startVacationDate.equals(endVacationDate)) {
+            throw new DateValidationException("Даты начала и окончания отпуска не должны совпадать");
         }
     }
 }

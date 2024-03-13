@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Vacation pay calculator for Neoflex",
+                title = "Тестовое задание. Калькулятор отпускных",
                 version = "1.0",
-                description = "Documentation \"Vacation pay calculator\" v1.0"),
+                description = "Documentation \"Калькулятор отпускных\" v1.0"),
 
         servers = @Server(
                 description = "Http Server",
