@@ -57,13 +57,13 @@ public class VacationPayServiceImpl implements VacationPayService {
         int[] officialHolidays = Holidays.getHolidays();
         int numberOfPaidVacationDays;
         numberOfPaidVacationDays = Period.between(startVacationDate, endVacationDate).getDays() + 1;
-        log.info("дней отпуска до корректировки " + numberOfPaidVacationDays);
+        //log.info("дней отпуска до корректировки " + numberOfPaidVacationDays);
         for (int day : officialHolidays) {
             if (startVacationDate.getDayOfYear() <= day && endVacationDate.getDayOfYear() >= day) {
                 --numberOfPaidVacationDays;
             }
         }
-        log.info("дней отпуска ПОСЛЕ корректировки " + numberOfPaidVacationDays);
+        //log.info("дней отпуска ПОСЛЕ корректировки " + numberOfPaidVacationDays);
         return numberOfPaidVacationDays;
     }
 
