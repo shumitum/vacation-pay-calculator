@@ -3,7 +3,6 @@ package com.neo.vacationpaycalc.impl;
 import com.neo.vacationpaycalc.VacationPayService;
 import com.neo.vacationpaycalc.exception.DateValidationException;
 import com.neo.vacationpaycalc.exception.NotEnoughDataException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,19 +30,17 @@ class VacationPayServiceImplTest {
         avgYearlySalary = 720_000;
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void getVacationPay_whenInvokedWithDaysAndSalary_thenReturnCorrectVacationPay() {
         BigDecimal vacationPay = vacationPayService.getVacationPay(numberOfVacationDays, null, null, avgYearlySalary);
+
         assertEquals(BigDecimal.valueOf(10_689.42), vacationPay);
     }
 
     @Test
     void getVacationPay_whenInvokedWithDatesAndSalary_thenReturnCorrectVacationPay() {
         BigDecimal vacationPay = vacationPayService.getVacationPay(0, startVacationDate, endVacationDate, avgYearlySalary);
+
         assertEquals(BigDecimal.valueOf(12_470.99), vacationPay);
     }
 
@@ -51,6 +48,7 @@ class VacationPayServiceImplTest {
     void getVacationPay_getVacationPay_whenInvokedVacationIncludeHoliday_thenReturnCorrectVacationPay() {
         BigDecimal vacationPay = vacationPayService.getVacationPay(0, startVacationDate,
                 LocalDate.of(2024, 6, 12), avgYearlySalary);
+
         assertEquals(BigDecimal.valueOf(19_597.27), vacationPay);
     }
 
