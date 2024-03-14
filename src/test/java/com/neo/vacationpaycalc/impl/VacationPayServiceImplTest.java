@@ -27,7 +27,7 @@ class VacationPayServiceImplTest {
         vacationPayService = new VacationPayServiceImpl();
         numberOfVacationDays = 6;
         startVacationDate = LocalDate.of(2024, 6, 1);
-        endVacationDate = LocalDate.of(2024, 6, 6);
+        endVacationDate = LocalDate.of(2024, 6, 7);
         avgYearlySalary = 720_000;
     }
 
@@ -36,32 +36,51 @@ class VacationPayServiceImplTest {
     }
 
     @Test
-    void getVacationPay() {
+    void getVacationPay_whenInvokedWithDaysAndSalary_thenReturnCorrectVacationPay() {
         BigDecimal vacationPay = vacationPayService.getVacationPay(numberOfVacationDays, null, null, avgYearlySalary);
-        assertEquals(BigDecimal.valueOf(10689.42), vacationPay);
+        assertEquals(BigDecimal.valueOf(10_689.42), vacationPay);
     }
 
     @Test
-    void getVacationPay_when() {
+    void getVacationPay_whenInvokedWithDatesAndSalary_thenReturnCorrectVacationPay() {
+        BigDecimal vacationPay = vacationPayService.getVacationPay(0, startVacationDate, endVacationDate, avgYearlySalary);
+        assertEquals(BigDecimal.valueOf(12_470.99), vacationPay);
+    }
+
+    @Test
+    void getVacationPay_getVacationPay_whenInvokedVacationIncludeHoliday_thenReturnCorrectVacationPay() {
+        BigDecimal vacationPay = vacationPayService.getVacationPay(0, startVacationDate,
+                LocalDate.of(2024, 6, 12), avgYearlySalary);
+        assertEquals(BigDecimal.valueOf(19_597.27), vacationPay);
+    }
+
+    @Test
+    void getVacationPay_whenInvokedWithDaysAndDates_thenThrowNotEnoughDataException() {
         assertThrows(NotEnoughDataException.class, () -> vacationPayService
-                .getVacationPay(0, null, null, 0));
+                .getVacationPay(0, null, null, avgYearlySalary));
     }
 
     @Test
-    void getVacationPay_whenVacationStartEqualsEnd() {
+    void getVacationPay_whenInvokedVacationStartDateEqualsEndDate_thenThrowDateValidationException() {
         assertThrows(DateValidationException.class, () -> vacationPayService
                 .getVacationPay(0, startVacationDate, startVacationDate, 0));
     }
 
     @Test
-    void getVacationPay_whenInv() {
+    void getVacationPay_whenInvokedWithEndDateBeforeStartDate_thenThrowDateValidationException() {
         assertThrows(DateValidationException.class, () -> vacationPayService
                 .getVacationPay(0, endVacationDate, startVacationDate, 0));
     }
 
     @Test
-    void getVacationPay_whenInvokeWithNotEnoughData() {
+    void getVacationPay_whenInvokeWithNoEndDate_thenThrowNotEnoughDataException() {
         assertThrows(NotEnoughDataException.class, () -> vacationPayService
                 .getVacationPay(0, startVacationDate, null, avgYearlySalary));
+    }
+
+    @Test
+    void getVacationPay_whenInvokeWithNoStartDate_thenThrowNotEnoughDataException() {
+        assertThrows(NotEnoughDataException.class, () -> vacationPayService
+                .getVacationPay(0, null, endVacationDate, avgYearlySalary));
     }
 }

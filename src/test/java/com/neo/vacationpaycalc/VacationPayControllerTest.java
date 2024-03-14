@@ -25,7 +25,7 @@ class VacationPayControllerTest {
 
     @Test
     @SneakyThrows
-    void getVacationPay_whenInvokeWithCorrectParams_thenReturnOkStatus() {
+    void getVacationPay_whenInvokedWithCorrectParams_thenReturnOkStatus() {
         mockMvc.perform(get("/calculate")
                         .param("numberOfVacationDays", "6")
                         .param("startVacationDate", "01.06.2024")
@@ -43,7 +43,7 @@ class VacationPayControllerTest {
 
     @Test
     @SneakyThrows
-    void getVacationPay_whenInvokeWithWrongNumberOfVacationDays_thenReturnBadRequestStatus() {
+    void getVacationPay_whenInvokedWithWrongNumberOfVacationDays_thenReturnBadRequestStatus() {
         mockMvc.perform(get("/calculate")
                         .param("numberOfVacationDays", "-1")
                         .param("startVacationDate", "01.06.2024")
@@ -61,7 +61,7 @@ class VacationPayControllerTest {
 
     @Test
     @SneakyThrows
-    void getVacationPay_whenInvokeWithWrongDates_thenReturnBadRequestStatus() {
+    void getVacationPay_whenInvokedWithWrongDates_thenReturnBadRequestStatus() {
         mockMvc.perform(get("/calculate")
                         .param("numberOfVacationDays", "6")
                         .param("startVacationDate", "01.06.2023")
@@ -79,7 +79,7 @@ class VacationPayControllerTest {
 
     @Test
     @SneakyThrows
-    void getVacationPay_whenInvokeWithWrongAvgSalary_thenReturnBadRequestStatus() {
+    void getVacationPay_whenInvokedWithWrongAvgSalary_thenReturnBadRequestStatus() {
         mockMvc.perform(get("/calculate")
                         .param("numberOfVacationDays", "6")
                         .param("startVacationDate", "01.06.2024")
