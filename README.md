@@ -51,13 +51,14 @@ GET /calculate
 - endVacationDate -  дата окончания отпуска (в формате дд.мм.гггг)  
 - avgYearlySalary (required) - средняя заработная плата за 12 месяцев  
 
-Пример http://localhost:8080/calculate?numberOfVacationDays=6&startVacationDate=01.05.2024&endVacationDate=07.05.2024&avgYearlySalary=720000
+Пример  
+http://localhost:8080/calculate?numberOfVacationDays=6&startVacationDate=01.05.2024&endVacationDate=07.05.2024&avgYearlySalary=720000
 
 Эндпоинт возвращает количество отпускных в BigDecimal c двумя знаками в дробной части.  
 
 Запрос вернет статус 400 BAD REQUEST если:
 - даты начала и окончания отпуска совпадают;  
-- последний день отпуска указан раньше для начала отпуска;
+- последний день отпуска указан раньше дня начала отпуска;
 - не указано количество дней отпуска и при этом не указаны даты начала и окончания отпуска;
 - не указано количество дней отпуска и при этом не указана одна из дат.
 
