@@ -38,12 +38,14 @@ class VacationPayServiceImplTest {
     @Test
     void getVacationPay_whenInvokedWithDaysAndSalary_thenReturnCorrectVacationPay() {
         BigDecimal vacationPay = vacationPayService.getVacationPay(numberOfVacationDays, null, null, avgYearlySalary);
+
         assertEquals(BigDecimal.valueOf(10_689.42), vacationPay);
     }
 
     @Test
     void getVacationPay_whenInvokedWithDatesAndSalary_thenReturnCorrectVacationPay() {
         BigDecimal vacationPay = vacationPayService.getVacationPay(0, startVacationDate, endVacationDate, avgYearlySalary);
+
         assertEquals(BigDecimal.valueOf(12_470.99), vacationPay);
     }
 
@@ -51,6 +53,7 @@ class VacationPayServiceImplTest {
     void getVacationPay_getVacationPay_whenInvokedVacationIncludeHoliday_thenReturnCorrectVacationPay() {
         BigDecimal vacationPay = vacationPayService.getVacationPay(0, startVacationDate,
                 LocalDate.of(2024, 6, 12), avgYearlySalary);
+
         assertEquals(BigDecimal.valueOf(19_597.27), vacationPay);
     }
 

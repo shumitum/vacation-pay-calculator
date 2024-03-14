@@ -51,7 +51,7 @@ GET /calculate
 - endVacationDate -  дата окончания отпуска (в формате дд.мм.гггг)  
 - avgYearlySalary (required) - средняя заработная плата за 12 месяцев  
 
-Пример  
+Пример запроса  
 http://localhost:8080/calculate?numberOfVacationDays=6&startVacationDate=01.05.2024&endVacationDate=07.05.2024&avgYearlySalary=720000
 
 Эндпоинт возвращает количество отпускных в BigDecimal c двумя знаками в дробной части.  
