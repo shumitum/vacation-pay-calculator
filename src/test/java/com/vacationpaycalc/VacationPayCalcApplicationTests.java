@@ -1,4 +1,4 @@
-package com.neo.vacationpaycalc;
+package com.vacationpaycalc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

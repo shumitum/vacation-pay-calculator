@@ -9,11 +9,8 @@
 
 Чтобы запустить приложение необходимо
 * Скачать или клонировать репозиторий (git clone https://github.com/shumitum/vacation-pay-calculator.git)
-* Собрать проект командой
-```bash
-mvn clean package
-```
-* Запустить приложение
+
+* Запустить приложение командой
 ```bash
 mvn spring-boot:run
 ```

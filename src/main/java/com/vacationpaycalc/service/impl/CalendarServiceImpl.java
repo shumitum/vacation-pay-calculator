@@ -1,15 +1,18 @@
-package com.neo.vacationpaycalc;
+package com.vacationpaycalc.service.impl;
+
+import com.vacationpaycalc.service.CalendarService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-public class Holidays {
-    private static final int[] holidaysLeapYear = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 54, 68, 122, 130, 164, 309};
-    private static final int[] holidaysRegularYear = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 54, 67, 121, 129, 163, 308};
+@Service
+public class CalendarServiceImpl implements CalendarService {
 
-    private Holidays() {
-    }
+    private final int[] holidaysLeapYear = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 54, 68, 122, 130, 164, 309};
+    private final int[] holidaysRegularYear = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 54, 67, 121, 129, 163, 308};
 
-    public static int[] getHolidays() {
+    @Override
+    public int[] getHolidays() {
         final int currentYear;
         currentYear = LocalDate.now().getYear();
         if (currentYear % 400 == 0 || currentYear % 4 == 0 && currentYear % 100 != 0) {
@@ -20,7 +23,7 @@ public class Holidays {
     }
 }
 
-/**
+/*
  * високосный год -- невисокосный год
  * 1, 2, 3, 4, 5, 6 и 8 января — новогодние каникулы;
  * 7 января — Рождество Христово;

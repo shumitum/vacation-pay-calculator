@@ -1,9 +1,9 @@
-package com.neo.vacationpaycalc.impl;
+package com.vacationpaycalc.service.impl;
 
-import com.neo.vacationpaycalc.Holidays;
-import com.neo.vacationpaycalc.VacationPayService;
-import com.neo.vacationpaycalc.exception.DateValidationException;
-import com.neo.vacationpaycalc.exception.NotEnoughDataException;
+import com.vacationpaycalc.exception.DateValidationException;
+import com.vacationpaycalc.exception.NotEnoughDataException;
+import com.vacationpaycalc.service.CalendarService;
+import com.vacationpaycalc.service.VacationPayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,16 @@ import java.time.Period;
 @RequiredArgsConstructor
 public class VacationPayServiceImpl implements VacationPayService {
 
+    private final CalendarService calendarService;
+
     private static final double NDFL = 0.13;
     private static final double AVG_DAYS_IN_MONTH = 29.3;
 
     @Override
-    public BigDecimal getVacationPay(int numberOfVacationDays,
+    public BigDecimal getVacationPay(double avgYearlySalary,
+                                     int numberOfVacationDays,
                                      LocalDate startVacationDate,
-                                     LocalDate endVacationDate,
-                                     double avgYearlySalary) {
+                                     LocalDate endVacationDate) {
         if (startVacationDate != null && endVacationDate != null) {
             validateVacationDates(startVacationDate, endVacationDate);
             log.info("Расчёт отпускных за период с {} по {}, средняя заработная плата за 12 мес. {} руб.",
@@ -54,7 +56,7 @@ public class VacationPayServiceImpl implements VacationPayService {
     }
 
     private int getNumberOfPaidVacationDays(LocalDate startVacationDate, LocalDate endVacationDate) {
-        int[] officialHolidays = Holidays.getHolidays();
+        int[] officialHolidays = calendarService.getHolidays();
         int numberOfPaidVacationDays;
         numberOfPaidVacationDays = Period.between(startVacationDate, endVacationDate).getDays() + 1;
         for (int day : officialHolidays) {

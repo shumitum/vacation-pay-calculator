@@ -1,4 +1,4 @@
-package com.neo.vacationpaycalc.exception;
+package com.vacationpaycalc.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
