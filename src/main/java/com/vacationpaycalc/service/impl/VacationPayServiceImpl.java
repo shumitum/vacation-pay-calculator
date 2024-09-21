@@ -32,27 +32,21 @@ public class VacationPayServiceImpl implements VacationPayService {
             validateVacationDates(startVacationDate, endVacationDate);
             log.info("Расчёт отпускных за период с {} по {}, средняя заработная плата за 12 мес. {} руб.",
                     startVacationDate, endVacationDate, avgYearlySalary);
-            return calculateVacationPayByDates(startVacationDate, endVacationDate, avgYearlySalary);
+            final int numberOfPaidVacationDays;
+            numberOfPaidVacationDays = getNumberOfPaidVacationDays(startVacationDate, endVacationDate);
+            return calculateVacationPay(numberOfPaidVacationDays, avgYearlySalary);
         } else if (numberOfVacationDays != 0) {
             log.info("Расчёт отпускных: количество дней отпуска - {}, средняя заработная плата за 12 мес. {} руб.",
                     numberOfVacationDays, avgYearlySalary);
-            return calculateVacationPayByDays(numberOfVacationDays, avgYearlySalary);
+            return calculateVacationPay(numberOfVacationDays, avgYearlySalary);
         } else {
             throw new NotEnoughDataException("Недостаточно данных для расчёта");
         }
     }
 
-    private BigDecimal calculateVacationPayByDays(int numberOfVacationDays, double avgYearlySalary) {
+    private BigDecimal calculateVacationPay(int numberOfVacationDays, double avgYearlySalary) {
         return BigDecimal.valueOf(avgYearlySalary / (12 * AVG_DAYS_IN_MONTH) * numberOfVacationDays * (1 - NDFL))
                 .setScale(2, RoundingMode.HALF_EVEN);
-    }
-
-    private BigDecimal calculateVacationPayByDates(LocalDate startVacationDate,
-                                                   LocalDate endVacationDate,
-                                                   double avgMonthlySalary) {
-        final int numberOfPaidVacationDays;
-        numberOfPaidVacationDays = getNumberOfPaidVacationDays(startVacationDate, endVacationDate);
-        return calculateVacationPayByDays(numberOfPaidVacationDays, avgMonthlySalary);
     }
 
     private int getNumberOfPaidVacationDays(LocalDate startVacationDate, LocalDate endVacationDate) {

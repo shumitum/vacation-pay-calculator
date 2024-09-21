@@ -1,5 +1,6 @@
 package com.vacationpaycalc;
 
+import com.vacationpaycalc.controller.VacationPayController;
 import com.vacationpaycalc.service.VacationPayService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.vacationpaycalc;
+package com.vacationpaycalc.controller;
 
 import com.vacationpaycalc.service.VacationPayService;
 import io.swagger.v3.oas.annotations.Operation;
